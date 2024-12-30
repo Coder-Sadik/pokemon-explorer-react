@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import pokemonLogo from "../assets/pokemon_logo.png";
 
 const Navbar = () => {
@@ -8,8 +9,12 @@ const Navbar = () => {
 					<img src={pokemonLogo} alt="pokemon_logo" />
 				</div>
 				<div className="text-white text-lg space-x-8">
-					<a href="">Home</a>
-					<a href="">Favorites</a>
+					<Link to="/" className="link-style">
+						Home
+					</Link>
+					<Link to="/favorites" className="link-style">
+						Favorites
+					</Link>
 				</div>
 			</nav>
 		</>
