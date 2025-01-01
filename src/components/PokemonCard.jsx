@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -6,7 +7,10 @@ const PokemonCard = ({ pokemon, toggleFavorite, favorites }) => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
-	// Fetch Pokémon details using the URL
+	// console.log(pokemon);
+	
+
+	// Fetch Pokémon details
 	useEffect(() => {
 		const fetchPokemonDetails = async () => {
 			try {
@@ -14,7 +18,7 @@ const PokemonCard = ({ pokemon, toggleFavorite, favorites }) => {
 				const response = await fetch(pokemon.url);
 				const data = await response.json();
 				setPokemonDetails(data);
-			} catch (err) {
+			} catch {
 				setError("Failed to load Pokémon details.");
 			} finally {
 				setLoading(false);

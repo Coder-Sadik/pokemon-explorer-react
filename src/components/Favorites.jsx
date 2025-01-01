@@ -1,6 +1,6 @@
 import PokemonCard from "./PokemonCard";
 /* eslint-disable react/prop-types */
-const Favorites = ({ favorites, toggleFavorite }) => {
+const Favorites = ({ favorites, toggleFavorite}) => {
 	return (
 		<div className="p-12">
 			<h1 className="text-3xl font-bold text-yellow-500 mb-8">

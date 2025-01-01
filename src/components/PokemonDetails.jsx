@@ -14,7 +14,6 @@ const PokemonDetails = () => {
 			setError(null);
 			const pokemonData = await fetchPokemonDetails(name);
 			setData(pokemonData);
-			console.log(pokemonData.weight);
 		} catch {
 			setError("Failed to load Pokémon.");
 		} finally {
@@ -45,7 +44,8 @@ const PokemonDetails = () => {
 									src={
 										// data.sprites.versions["generation-v"]["black-white"]
 										// 	.animated.front_default ||
-										data.sprites.other["dream_world"].front_default
+										data.sprites.other["dream_world"].front_default ||
+										data.sprites.other["official-artwork"].front_default
 									}
 									alt={`${name} image`}
 								/>

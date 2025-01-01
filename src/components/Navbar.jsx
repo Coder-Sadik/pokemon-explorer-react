@@ -4,7 +4,7 @@ import pokemonLogo from "../assets/pokemon_logo.png";
 const Navbar = () => {
 	return (
 		<>
-			<nav className="flex h-20 bg-yellow-500 justify-between items-center px-12">
+			<nav className="flex h-20 bg-yellow-500 justify-between items-center px-12 sticky top-0 shadow-lg z-30">
 				<div className="w-28">
 					<img src={pokemonLogo} alt="pokemon_logo" />
 				</div>

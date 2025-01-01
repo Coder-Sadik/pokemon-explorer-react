@@ -12,6 +12,7 @@ function App() {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const [favorites, setFavorites] = useState([]);
+	const [searchInput, setSearchInput] = useState();
 
 	// Fetch default Pokémon list
 	const fetchDefaultPokemon = async () => {
@@ -20,7 +21,7 @@ function App() {
 			setError(null);
 			const data = await fetchPokemonList(12);
 			setPokemonList(data);
-		} catch (err) {
+		} catch {
 			setError("Failed to load Pokémon.");
 		} finally {
 			setLoading(false);
@@ -31,9 +32,11 @@ function App() {
 		fetchDefaultPokemon();
 	}, []);
 
+	// Handle search query input
 	const handleSearch = async (query) => {
+		setSearchInput(query);
 		if (!query) {
-			fetchDefaultPokemon();
+			fetchDefaultPokemon(); // Reset to default list if query is empty
 			return;
 		}
 
@@ -41,15 +44,33 @@ function App() {
 			setLoading(true);
 			setError(null);
 
-			// Fetch Pokémon by name
-			const searchedPokemon = await fetchPokemonDetails(query.toLowerCase());
-			setPokemonList([searchedPokemon]);
-		} catch (err) {
+			// Fetch Pokémon by name from the API and get detailed info
+			const searchedPokemon = await fetchPokemonDetails(query);
+
+			// Check if the Pokémon exists, and then add it to the list
+			if (searchedPokemon) {
+				setPokemonList([
+					{
+						name: query,
+						url: `https://pokeapi.co/api/v2/pokemon/${query}`,
+					},
+				]);
+			} else {
+				setError("No Pokémon found.");
+				setPokemonList([]);
+			}
+		} catch {
 			setError("No Pokémon found.");
 			setPokemonList([]);
 		} finally {
 			setLoading(false);
 		}
+	};
+
+	// to clear search input
+	const handleClearInput = () => {
+		setSearchInput("");
+		handleSearch(""); // Notify parent that the input is cleared
 	};
 
 	//to add favorite Pokemon
@@ -74,7 +95,11 @@ function App() {
 							<h1 className="header-theme">
 								<span className="text-blue">Pokémon</span> Explorer
 							</h1>
-							<SearchBar onSearch={handleSearch} />
+							<SearchBar
+								onSearch={handleSearch}
+								searchValue={searchInput}
+								clearInput={handleClearInput}
+							/>
 							{loading ? (
 								<p className="text-center text-yellow-500 font-bold text-2xl mt-8">
 									Loading Pokémon...
