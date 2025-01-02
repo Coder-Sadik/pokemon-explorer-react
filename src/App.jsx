@@ -11,8 +11,12 @@ function App() {
 	const [pokemonList, setPokemonList] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
-	const [favorites, setFavorites] = useState([]);
 	const [searchInput, setSearchInput] = useState();
+	
+	const [favorites, setFavorites] = useState(() => {
+		const storedFavorites = localStorage.getItem("favorites");
+		return storedFavorites ? JSON.parse(storedFavorites) : [];
+	});
 
 	// Fetch default Pokémon list
 	const fetchDefaultPokemon = async () => {
@@ -70,17 +74,36 @@ function App() {
 	// to clear search input
 	const handleClearInput = () => {
 		setSearchInput("");
-		handleSearch(""); // Notify parent that the input is cleared
+		handleSearch("");
 	};
 
-	//to add favorite Pokemon
+	// Load favorites from local storage
+	useEffect(() => {
+		try {
+			const storedFavorites = JSON.parse(localStorage.getItem("favorites"));
+			if (storedFavorites && Array.isArray(storedFavorites)) {
+				setFavorites(storedFavorites);
+			}
+		} catch (error) {
+			console.error("Error loading favorites from local storage:", error);
+		}
+	}, []);
+
+	useEffect(() => {
+		// Save to local storage whenever favorites change
+		try {
+			localStorage.setItem("favorites", JSON.stringify(favorites));
+		} catch (error) {
+			console.error("Error saving to local storage:", error);
+		}
+	}, [favorites]); // Runs whenever favorites state changes
+
 	const toggleFavorite = (pokemon) => {
 		setFavorites((prevFavorites) => {
-			const isFavorite = prevFavorites.find((fav) => fav.name === pokemon.name);
-			if (isFavorite) {
-				return prevFavorites.filter((fav) => fav.name !== pokemon.name);
-			}
-			return [...prevFavorites, pokemon];
+			const isFavorite = prevFavorites.some((fav) => fav.name === pokemon.name);
+			return isFavorite
+				? prevFavorites.filter((fav) => fav.name !== pokemon.name)
+				: [...prevFavorites, pokemon];
 		});
 	};
 
