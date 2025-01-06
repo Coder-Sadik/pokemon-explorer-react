@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -8,7 +7,6 @@ const PokemonCard = ({ pokemon, toggleFavorite, favorites }) => {
 	const [error, setError] = useState(null);
 
 	// console.log(pokemon);
-	
 
 	// Fetch Pokémon details
 	useEffect(() => {

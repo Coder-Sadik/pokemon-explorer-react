@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 const SearchBar = ({ onSearch, searchValue, clearInput }) => {
 	const handleInputChange = (event) => {
 		const value = event.target.value.trim().toLowerCase();

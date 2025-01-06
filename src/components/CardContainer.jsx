@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import PokemonCard from "./PokemonCard";
 const CardContainer = ({ pokemons, toggleFavorite, favorites }) => {
 	return (
